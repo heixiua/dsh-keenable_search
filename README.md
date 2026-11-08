@@ -123,6 +123,21 @@ cd "D:\AI agent cache\dsh\profiles\desktop"
 
 **不加这一行，DSH 不会加载插件**，工具也不会出现。
 
+### 必须注入 `tools`（0.1.1 修复）
+
+`index.js` 必须声明 `export const inject = ['tools']`。第一版写的是 `inject = []`，并假设
+「`ctx.get('tools')` 不需要 inject 也能拿到注册表」。**这个假设在 DSH 0.2.2-rc.1 上是错的**：
+插件行会显示 `fiberPhase: "active"`、包能 import、用假 ctx 跑测试也能注册两个工具，
+但真实 Host 里 `ctx.get('tools')` 是 `undefined`，`apply()` 走了 fail-soft 的 `return`，
+**一个工具都没挂上**。表现是：设置里看着装好了，agent 却始终调用官方 `web_search`
+并报 `DeepSeek search has no API key`。
+
+同 profile 里其他能贡献工具的插件都声明了它：`@restregular/dsh-computer-use` 是
+`inject = ['tools']`，`@ninkch/dsh-infinite-canvas` 是 `inject = ['webServer', 'tools']`。
+
+改完必须**完全重启 DSH**（`inject` 是加载期契约，HMR 不会重读），并且**开一个新会话**——
+早于插件安装时创建的旧会话不会追溯获得新工具。
+
 ### 然后重启 DSH
 
 ---

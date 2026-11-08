@@ -21,16 +21,28 @@ import { DEFAULT_TIMEOUT_MS, resolveCredentials, search, fetchPage } from './lib
 export const name = 'keenable-search'
 
 /**
- * The tool registry is reachable without injection (it is looked up with
- * `ctx.get('tools')`), and `connection` is deliberately NOT injected: this
- * plugin registers no HTTP route and must not be able to take the Host down by
- * depending on something it does not use.
+ * `tools` MUST be injected.
  *
- * There is also no timer. An earlier plugin in this profile crashed the Host
- * with a polling interval on a context that had not injected `timer`; nothing
- * here needs one.
+ * The first version declared `inject = []` on the assumption that the tool
+ * registry is reachable with `ctx.get('tools')` without declaring it. Measured
+ * on DSH 0.2.2-rc.1 that assumption is false: the plugin row loaded
+ * (`fiberPhase: "active"`) but `ctx.get('tools')` returned undefined, so
+ * `apply()` took its fail-soft `return` and registered NOTHING. The plugin
+ * looked installed, `plugin_manager` showed it active, yet the agent's tool
+ * list never contained `keenable_search` / `keenable_fetch` — the model kept
+ * calling the built-in `web_search`, which fails for lack of DEEPSEEK_API_KEY.
+ *
+ * Every other tool-providing plugin in this profile declares it:
+ *   @restregular/dsh-computer-use  inject = ['tools']
+ *   @ninkch/dsh-infinite-canvas    inject = ['webServer', 'tools']
+ *
+ * `connection` is deliberately NOT injected: this plugin registers no HTTP
+ * route and must not be able to take the Host down by depending on something
+ * it does not use. There is also no timer — an earlier plugin in this profile
+ * crashed the Host with a polling interval on a context that had not injected
+ * `timer`; nothing here needs one.
  */
-export const inject = []
+export const inject = ['tools']
 
 /** @param {any} ctx plugin context @param {any} [config] row config */
 export function apply(ctx, config = {}) {

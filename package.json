@@ -1,6 +1,6 @@
 {
   "name": "dsh-keenable-search",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Keenable web search for DeepSeek Harness: one Host-level tool that gives every agent live web search and page fetching, with no per-workspace setup.",
   "type": "module",
   "main": "./index.js",

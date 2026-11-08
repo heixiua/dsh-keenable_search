@@ -8,5 +8,5 @@ Thumbs.db
 .env.*
 *.env
 
-# Local test scratch
-tools/.tmp/
+# Test suites stay local: they read the DSH .env for a live API key.
+tools/

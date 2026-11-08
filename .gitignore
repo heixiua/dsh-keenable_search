@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# Never commit credentials. The key is read from the DSH environment at runtime.
+.env
+.env.*
+*.env
+
+# Local test scratch
+tools/.tmp/

@@ -1,0 +1,48 @@
+{
+  "name": "dsh-keenable-search",
+  "version": "0.1.0",
+  "description": "Keenable web search for DeepSeek Harness: one Host-level tool that gives every agent live web search and page fetching, with no per-workspace setup.",
+  "type": "module",
+  "main": "./index.js",
+  "license": "MIT",
+  "author": {
+    "name": "heixiua",
+    "url": "https://github.com/heixiua"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "cordis",
+    "web-search",
+    "keenable",
+    "search"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heixiua/dsh-keenable-search.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./lib/*.js": "./lib/*.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "lib/*.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

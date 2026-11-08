@@ -1,0 +1,20 @@
+# dsh-keenable-search — one Host-level web search tool for every agent.
+#
+# Search is a Host capability, so a single row makes it available to every
+# session and workspace. Nothing is copied per project, and no HTTP route or
+# client half is involved: this bundle only registers tools.
+#
+# The credential is NOT stored here. `apiKey` / `baseUrl` default to the
+# KEENABLE_API_KEY / KEENABLE_API_URL environment variables the DSH process
+# already has; setting them in this config is an override for the case where one
+# profile needs a different key than the machine-wide .env.
+- insert:
+    - id: keenable-search
+      name: dsh-keenable-search
+      config:
+        # Per-request timeout. A stuck search must not stall an agent turn, so
+        # this aborts the request rather than waiting on the socket.
+        timeoutMs: 15000
+        # Results per query when the caller does not ask for a specific count.
+        # The API caps a single response at 50.
+        maxResults: 8

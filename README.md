@@ -3,6 +3,9 @@
 **给 DeepSeek Harness 的免费联网搜索插件。** 一次注册，**所有 Agent、所有会话、所有工作区**都能用。
 
 > 搜索能力挂在 Host 层，装一次就全局可用 —— 不需要每个项目复制一份，不需要写 client 端，不注册任何 HTTP 路由。
+>
+> 排查笔记：为什么工具没被 agent 用上，见 [docs/keenable-not-used.md](docs/keenable-not-used.md)
+> （`inject` 必须含 `tools`，否则 `ctx.get('tools')` 为 undefined，插件静默不注册工具）。
 
 ---
 
